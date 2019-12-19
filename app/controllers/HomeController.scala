@@ -23,7 +23,7 @@ class HomeController @Inject()(cc: ControllerComponents)(implicit executor: Exec
     )
   }
 
-  def validate[A, B, C](json: JsValue)(implicit rdsA: Reads[A], rdsB: Reads[B], rdsC: Reads[C]): Result = {
+  def validateMultiple[A, B, C](json: JsValue)(implicit rdsA: Reads[A], rdsB: Reads[B], rdsC: Reads[C]): Result = {
     val validate = rdsA.reads(json)
     validate match {
       case JsSuccess(value, path) => Ok(Json.obj("status" -> "Class A!"))
@@ -38,8 +38,7 @@ class HomeController @Inject()(cc: ControllerComponents)(implicit executor: Exec
   }
 
   def indexMultiple(): Action[JsValue] = Action.async(parse.json) { request =>
-    val body = request.body
-    Future( validate[Event1, Event2, Event3](body) )
+    Future( validateMultiple[Event1, Event2, Event3](request.body) )
   }
 
   def status(): Action[AnyContent] = Action { implicit request: Request[AnyContent] =>
