@@ -16,16 +16,8 @@ import scala.concurrent.{ExecutionContext, Future}
 @Singleton
 class HomeController @Inject()(cc: ControllerComponents)(implicit executor: ExecutionContext) extends AbstractController(cc) {
 
-  def index(): Action[JsValue] = Action.async(parse.json) { request =>
-    request.body.validate[Event1].fold(
-      errors => Future (BadRequest(Json.obj("error" -> "Wrong body format."))),
-      event => Future(Ok(Json.obj("status" -> "All good!")))
-    )
-  }
-
-  def validateMultiple[A, B, C](json: JsValue)(implicit rdsA: Reads[A], rdsB: Reads[B], rdsC: Reads[C]): Result = {
-    val validate = rdsA.reads(json)
-    validate match {
+  private def validateMultiple[A, B, C](json: JsValue)(implicit rdsA: Reads[A], rdsB: Reads[B], rdsC: Reads[C]): Result = {
+    rdsA.reads(json) match {
       case JsSuccess(value, path) => Ok(Json.obj("status" -> "Class A!"))
       case JsError(errors) => rdsB.reads(json) match {
         case JsSuccess(value, path) => Ok(Json.obj("status" -> "Class B!"))
@@ -35,6 +27,13 @@ class HomeController @Inject()(cc: ControllerComponents)(implicit executor: Exec
         }
       }
     }
+  }
+
+  def index(): Action[JsValue] = Action.async(parse.json) { request =>
+    request.body.validate[Event1].fold(
+      errors => Future (BadRequest(Json.obj("error" -> "Wrong body format."))),
+      event => Future(Ok(Json.obj("status" -> "All good!")))
+    )
   }
 
   def indexMultiple(): Action[JsValue] = Action.async(parse.json) { request =>
