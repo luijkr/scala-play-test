@@ -1,10 +1,21 @@
 package models
 
-import play.api.libs.json.Reads._
 import play.api.libs.json._
 
-case class Event(text: String)
+case class Event1(field1: String)
 
-object Event {
-  implicit val reads: Reads[Event] = (JsPath \ "text").read(minLength[String](1)).map(Event.apply)
+object Event1 {
+  implicit val reads: Reads[Event1] = Json.reads[Event1]
+}
+
+case class Event2(field2: String)
+
+object Event2 {
+  implicit val reads: Reads[Event2] = Json.reads[Event2]
+}
+
+case class Event3(field3: String)
+
+object Event3 {
+  implicit val reads: Reads[Event3] = Json.reads[Event3]
 }
