@@ -1,6 +1,6 @@
-# Super simple Play application
+# Simple Play application handling multiple data inputs
 
-The most basic Play application I could think of.
+The most basic Play application which is able to handle multiple different data inputs in the request body.
 
 ### Run locally
 
@@ -10,11 +10,10 @@ Start service
 
 The service will then run locally at localhost:9000
 
-Calling the service requires a "text" field in the body. For example:
+Calling the service using `curl`:
 
 ```
-curl -X POST \
-  http://localhost:9000 \
-  -H 'Content-Type: application/json' \
-  -d '{"text": "input-value"}'
-  ```
+curl -X POST http://localhost:9000 \
+    -H 'Content-Type: application/json' \
+    -d '{"text": "input-value"}'
+```
