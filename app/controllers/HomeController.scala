@@ -17,7 +17,7 @@ import scala.concurrent.{ExecutionContext, Future}
 class HomeController @Inject()(cc: ControllerComponents)(implicit executor: ExecutionContext) extends AbstractController(cc) {
 
   def index(): Action[JsValue] = Action.async(parse.json) { request =>
-    request.body.validate[Event1].fold(
+    request.body.validate[Request0].fold(
       errors => Future (BadRequest(Json.obj("error" -> "Wrong body format."))),
       event => Future(Ok(Json.obj("status" -> "Seems good to me!")))
     )
@@ -25,7 +25,7 @@ class HomeController @Inject()(cc: ControllerComponents)(implicit executor: Exec
 
   def indexMultiple(): Action[JsValue] = Action.async(parse.json) { request =>
     Future(
-      validateMultiple[Event1, Event2](request.body)
+      validateMultiple[Request0, Request1](request.body)
     )
   }
 

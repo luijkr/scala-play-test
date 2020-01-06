@@ -2,14 +2,14 @@ package models
 
 import play.api.libs.json._
 
-case class Event1(name: String, message: String)
+case class Request0(name: String, message: String)
 
-object Event1 {
-  implicit val reads: Reads[Event1] = Json.reads[Event1]
+object Request0 {
+  implicit val reads: Reads[Request0] = Json.reads[Request0]
 }
 
-case class Event2(field2: String)
+case class Request1(company: String, job_title: String)
 
-object Event2 {
-  implicit val reads: Reads[Event2] = Json.reads[Event2]
+object Request1 {
+  implicit val reads: Reads[Request1] = Json.reads[Request1]
 }
